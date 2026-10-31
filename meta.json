@@ -1,0 +1,12 @@
+{
+  "name": "Deploy to Kubernetes",
+  "summary": "Applies a manifest or sets the image of a deployment, then waits for the rollout.",
+  "author": "hummerstudio",
+  "license": "MIT",
+  "tags": [
+    "official-port",
+    "kubernetes",
+    "deploy"
+  ],
+  "homepage": "https://github.com/hummerstudio/jenkins-atom-k8s-deploy"
+}

@@ -1,0 +1,101 @@
+{
+  "atomCode": "k8s-deploy",
+  "name": "Deploy to Kubernetes",
+  "version": "1.0.0",
+  "description": "Applies a manifest or sets the image of a deployment, then waits for the rollout.",
+  "execution": {
+    "packagePath": "k8s-deploy.jar",
+    "language": "java",
+    "target": "$atom_java_path -cp k8s-deploy.jar com.jenkinschina.atom.sdk.AtomRunner"
+  },
+  "input": {
+    "action": {
+      "label": "动作（setImage / apply / delete / rollout）",
+      "type": "vuex-input",
+      "default": "setImage"
+    },
+    "deployment": {
+      "label": "Deployment 名",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "container": {
+      "label": "容器名（留空为全部容器）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "image": {
+      "label": "镜像",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "manifest": {
+      "label": "清单路径（apply/delete）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "namespace": {
+      "label": "命名空间",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "kubeContext": {
+      "label": "context",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "kubeconfig": {
+      "label": "kubeconfig（工作区里的路径，或直接贴内容）",
+      "type": "textarea",
+      "default": ""
+    },
+    "extraArgs": {
+      "label": "额外参数",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "waitForRollout": {
+      "label": "等待 rollout 完成",
+      "type": "checkbox",
+      "default": "true"
+    },
+    "timeoutSeconds": {
+      "label": "超时（秒）",
+      "type": "vuex-input",
+      "default": "300"
+    },
+    "kubectlBinary": {
+      "label": "kubectl 路径",
+      "type": "vuex-input",
+      "default": "kubectl"
+    }
+  },
+  "output": {
+    "action": {
+      "type": "string",
+      "description": "执行的动作"
+    },
+    "deployment": {
+      "type": "string",
+      "description": "Deployment 名"
+    },
+    "image": {
+      "type": "string",
+      "description": "设置的镜像"
+    },
+    "applied": {
+      "type": "string",
+      "description": "命令是否成功"
+    },
+    "rolledOut": {
+      "type": "string",
+      "description": "rollout 是否完成"
+    }
+  },
+  "x-jenkins": {
+    "protocol": "jenkins-1",
+    "requires": {
+      "runner": ">=0.4.0"
+    }
+  }
+}
