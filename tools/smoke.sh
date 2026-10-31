@@ -72,8 +72,13 @@ dir="$(mktemp -d)"; printf '{"action": "apply"}' >"$dir/input.json"
 PATH="$work/bin:$PATH" run "$dir" >"$dir/atom.log" 2>&1 && fail "apply without a manifest must be refused"
 
 # no kubectl on the agent
-dir="$(mktemp -d)"; printf '{}' >"$dir/input.json"; mkdir -p "$work/empty"
-PATH="$work/empty:/usr/bin:/bin" run "$dir" >"$dir/atom.log" 2>&1 && fail "missing kubectl must fail"
-grep -q '"errorType":5' "$dir/output.json" || fail "missing kubectl should be ENVIRONMENT(5)"
+dir="$(mktemp -d)"; printf '{}' >"$dir/input.json"
+# Point the atom at a path that does not exist rather than trimming PATH: GitHub runners ship kubectl in
+# /usr/local/bin (and sometimes /usr/bin), so a restricted PATH is not the same thing as a missing binary --
+# and trimming PATH also breaks the harness, because `env` lives there too.
+python3 tools/set_json.py "$dir/input.json" kubectlBinary=no-such-dir/kubectl
+run "$dir" >"$dir/atom.log" 2>&1 && fail "missing kubectl must fail"
+grep -q '"errorType":5' "$dir/output.json" \
+  || fail "missing kubectl should be ENVIRONMENT(5), got: $(cat "$dir/output.json")"
 
 echo "smoke ok: setImage+rollout, inline kubeconfig 0600, rollout timeout, unauthorized, unreachable, bad input"
