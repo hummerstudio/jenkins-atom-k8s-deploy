@@ -7,5 +7,5 @@
 错误分类：连不上集群 = `ENVIRONMENT`，清单/manifest 被拒 = `USER`，其余 = `THIRD_PART`。
 
 ```bash
-./build.sh && ./tools/smoke.sh   # kubectl 是桩，断言的是 argv 与判定
+mvn verify   # kubectl 是桩，src/test/java/atom/K8sDeployIT.java 断言的是 argv 与判定
 ```
