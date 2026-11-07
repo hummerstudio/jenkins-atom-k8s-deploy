@@ -261,6 +261,9 @@ public class K8sDeployAtom implements AtomTask {
                 return new Result(-1, "timed out after " + timeoutSeconds + "s\n" + output);
             }
             return new Result(process.exitValue(), output.toString());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return new Result(-1, String.valueOf(e));
         } catch (Exception e) {
             return new Result(-1, String.valueOf(e));
         }
