@@ -37,4 +37,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: k8s-deploy-atom
-          path: atom/dist/k8s-deploy/
+          path: atom/target/dist/k8s-deploy/
